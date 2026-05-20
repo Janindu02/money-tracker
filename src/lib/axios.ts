@@ -1,8 +1,8 @@
 import axios, { type AxiosError, type InternalAxiosRequestConfig } from "axios";
-import { API_URL } from "@/lib/api-config";
+import { getApiUrl } from "@/lib/api-config";
 
 export const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: getApiUrl(),
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
 });
@@ -20,6 +20,11 @@ function processQueue(error: Error | null) {
   });
   failedQueue = [];
 }
+
+apiClient.interceptors.request.use((config) => {
+  config.baseURL = getApiUrl();
+  return config;
+});
 
 apiClient.interceptors.response.use(
   (response) => {
