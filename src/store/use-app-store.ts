@@ -36,6 +36,15 @@ export const useAppStore = create<AppState>()(
       setSidebarOpen: (open) => set({ sidebarOpen: open }),
       setSearchQuery: (query) => set({ searchQuery: query }),
     }),
-    { name: "finova-store" }
+    {
+      name: "finova-store",
+      partialize: (state) => ({
+        theme: state.theme,
+        budgetPeriod: state.budgetPeriod,
+        chartPeriod: state.chartPeriod,
+        sidebarOpen: state.sidebarOpen,
+        searchQuery: state.searchQuery,
+      }),
+    }
   )
 );

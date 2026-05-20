@@ -4,6 +4,8 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { authService } from "@/services/auth.service";
+import { setAccessToken } from "@/lib/auth-token";
 import { AuthProviderBadge } from "@/components/auth/auth-provider-badge";
 
 function AuthCallbackContent() {
@@ -20,7 +22,12 @@ function AuthCallbackContent() {
       return;
     }
 
-    void refreshUser()
+    void authService
+      .refresh()
+      .then((res) => {
+        setAccessToken(res.accessToken);
+        return refreshUser();
+      })
       .then(() => {
         setStatus("success");
         setTimeout(() => router.replace("/dashboard"), 1200);

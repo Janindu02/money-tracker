@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { authService, type AuthUser } from "@/services/auth.service";
 import { getErrorMessage } from "@/lib/axios";
+import { clearAccessToken, setAccessToken } from "@/lib/auth-token";
 import { useAppStore } from "@/store/use-app-store";
 import type { ForgotPasswordInput, LoginInput, RegisterInput } from "@/lib/validations/auth";
 
@@ -43,6 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {
       setUser(null);
       setAuthenticated(false);
+      clearAccessToken();
     } finally {
       setLoading(false);
     }
@@ -58,6 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       try {
         const res = await authService.login(data);
+        setAccessToken(res.accessToken);
         setUser(res.user);
         setAuthenticated(true);
         router.push("/dashboard");
@@ -77,6 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setLoading(true);
       try {
         const res = await authService.register(data);
+        setAccessToken(res.accessToken);
         setUser(res.user);
         setAuthenticated(true);
         router.push("/dashboard");
@@ -107,6 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await authService.logout();
     } finally {
+      clearAccessToken();
       setUser(null);
       setAuthenticated(false);
       router.push("/login");
