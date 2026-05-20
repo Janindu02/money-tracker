@@ -30,3 +30,25 @@ export function formatShortDate(date: string | Date): string {
     day: "numeric",
   }).format(new Date(date));
 }
+
+/** Date + time for expense list (sorted chronologically) */
+export function formatExpenseDateTime(date: string | Date): string {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return "—";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(d);
+}
+
+export function formatExpenseTime(date: string | Date): string {
+  const d = new Date(date);
+  if (Number.isNaN(d.getTime())) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(d);
+}

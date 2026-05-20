@@ -3,7 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import type { Insight } from "@/types";
 
-export function AiInsightsCard({ insights, title = "Smart Insights" }: { insights: Insight[]; title?: string }) {
+export function AiInsightsCard({
+  insights,
+  title = "Smart Insights",
+  actionLabel = "View Full Analysis",
+}: {
+  insights: Insight[];
+  title?: string;
+  actionLabel?: string;
+}) {
   return (
     <Card variant="highlight" className="h-full">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -26,7 +34,9 @@ export function AiInsightsCard({ insights, title = "Smart Insights" }: { insight
             <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
           </button>
         ))}
-        <Button className="w-full">View Full Analysis</Button>
+        <Button className="w-full" variant="outline">
+          {actionLabel}
+        </Button>
       </CardContent>
     </Card>
   );

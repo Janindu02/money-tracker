@@ -27,6 +27,7 @@ import { aiInsightsService } from "@/services/ai-insights.service";
 import { formatPercent } from "@/utils/format";
 import type { SavingsGoal } from "@/types";
 import Link from "next/link";
+import { BudgetPlannerSection } from "@/components/budget/budget-planner-section";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -138,6 +139,8 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </MotionWrapper>
+
+      <BudgetPlannerSection compact showCharts={false} className="rounded-2xl border border-border/60 bg-card/30 p-6" />
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">

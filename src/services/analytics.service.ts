@@ -17,6 +17,23 @@ export interface CategorySpending {
   color: string;
 }
 
+export interface ExpenseSummary {
+  currency: string;
+  totalExpenses: number;
+  transactionCount: number;
+  avgDaily: number;
+  needTotal: number;
+  desireTotal: number;
+}
+
+export interface ExpenseFilterQuery {
+  categoryId?: string;
+  expenseNature?: "NEED" | "DESIRE";
+  year?: number;
+  month?: number;
+  day?: number;
+}
+
 export interface SavingsTrend {
   name: string;
   saved: number;
@@ -30,7 +47,17 @@ export const analyticsService = {
   getMonthly: (months = 6) =>
     api.get<{ currency: string; data: ChartDataPoint[] }>("/analytics/monthly", { months }),
 
-  getCategories: () => api.get<{ currency: string; data: CategorySpending[] }>("/analytics/categories"),
+  getCategories: (filters?: ExpenseFilterQuery) =>
+    api.get<{ currency: string; data: CategorySpending[] }>(
+      "/analytics/categories",
+      filters as Record<string, unknown>,
+    ),
+
+  getExpenseSummary: (filters?: ExpenseFilterQuery) =>
+    api.get<ExpenseSummary>(
+      "/analytics/expenses/summary",
+      filters as Record<string, unknown>,
+    ),
 
   getTrends: () =>
     api.get<{

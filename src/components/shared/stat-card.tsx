@@ -36,8 +36,11 @@ export function StatCard({
         : value.toLocaleString();
 
   return (
-    <Card variant={variant === "gradient" ? "gradient" : "glass"} className={cn("overflow-hidden", className)}>
-      <CardContent className="p-6">
+    <Card
+      variant={variant === "gradient" ? "gradient" : "glass"}
+      className={cn("h-full overflow-hidden", className)}
+    >
+      <CardContent className="flex h-full min-h-[148px] flex-col justify-between p-6">
         <div className="flex items-start justify-between">
           <div>
             <p className={cn("text-sm font-medium", variant === "gradient" ? "text-white/80" : "text-muted-foreground")}>

@@ -51,11 +51,11 @@ export const mockTransactions: Transaction[] = [
 
 export const mockBudgetCategories: BudgetCategory[] = [
   { id: "1", name: "Housing", spent: 2100, limit: 2200, icon: "Home" },
-  { id: "2", name: "Food", spent: 680, limit: 800, icon: "Utensils" },
-  { id: "3", name: "Transport", spent: 420, limit: 400, icon: "Car" },
-  { id: "4", name: "Utilities", spent: 245, limit: 300, icon: "Zap" },
-  { id: "5", name: "Entertainment", spent: 180, limit: 250, icon: "Film" },
-  { id: "6", name: "Health", spent: 120, limit: 200, icon: "Heart" },
+  { id: "2", name: "Food & Dining", spent: 450, limit: 600, icon: "Utensils" },
+  { id: "3", name: "Transport", spent: 320, limit: 300, icon: "Car" },
+  { id: "4", name: "Shopping", spent: 180, limit: 400, icon: "ShoppingBag" },
+  { id: "5", name: "Utilities", spent: 245, limit: 250, icon: "Zap" },
+  { id: "6", name: "Health", spent: 50, limit: 200, icon: "Heart" },
 ];
 
 export const mockSavingsGoals: SavingsGoal[] = [
@@ -82,6 +82,31 @@ export const mockWeeklySpending: ChartDataPoint[] = [
   { name: "Fri", value: 640 },
   { name: "Sat", value: 720 },
   { name: "Sun", value: 480 },
+];
+
+export const mockBudgetSpendingTrends = [
+  { name: "Mon", value: 280, budgetLimit: 320 },
+  { name: "Tue", value: 310, budgetLimit: 320 },
+  { name: "Wed", value: 295, budgetLimit: 320 },
+  { name: "Thu", value: 340, budgetLimit: 320 },
+  { name: "Fri", value: 380, budgetLimit: 320 },
+  { name: "Sat", value: 290, budgetLimit: 320 },
+  { name: "Sun", value: 250, budgetLimit: 320 },
+];
+
+export const mockBudgetInsights: Insight[] = [
+  {
+    id: "b1",
+    title: "Optimize Utilities",
+    description: "Switch to eco-mode on weekdays to save ~$45 this month.",
+    type: "savings",
+  },
+  {
+    id: "b2",
+    title: "Dining Habit Shift",
+    description: "Your dining spend is down 15% compared to last Tuesday.",
+    type: "spending",
+  },
 ];
 
 export const mockCategorySpending = [

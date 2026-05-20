@@ -1,14 +1,26 @@
 export type TransactionType = "income" | "expense";
+export type ExpenseNature = "need" | "desire";
 
 export interface Transaction {
   id: string;
   name: string;
   category: string;
+  categoryId?: string;
   amount: number;
   type: TransactionType;
   date: string;
   status: "completed" | "pending";
   icon?: string;
+  expenseNature?: ExpenseNature;
+}
+
+export interface ExpenseCategory {
+  id: string;
+  name: string;
+  icon?: string;
+  type?: string;
+  isDefault?: boolean;
+  color?: string;
 }
 
 export interface Account {

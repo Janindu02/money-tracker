@@ -11,6 +11,7 @@ interface CategoryDonutChartProps {
 
 export function CategoryDonutChart({ data, title = "Spending by Category" }: CategoryDonutChartProps) {
   const { formatMoney } = useCurrency();
+  const total = data.reduce((sum, d) => sum + d.value, 0);
 
   return (
     <Card variant="glass" className="h-full">
@@ -28,17 +29,29 @@ export function CategoryDonutChart({ data, title = "Spending by Category" }: Cat
             <Tooltip formatter={(v) => formatMoney(Number(v ?? 0))} />
           </PieChart>
         </ResponsiveContainer>
-        <ul className="mt-4 space-y-2">
-          {data.map((d) => (
-            <li key={d.name} className="flex items-center justify-between text-sm">
-              <span className="flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full" style={{ background: d.color }} />
-                {d.name}
-              </span>
-              <span className="font-medium">{formatMoney(d.value)}</span>
-            </li>
-          ))}
-        </ul>
+        {data.length === 0 ? (
+          <p className="py-8 text-center text-sm text-muted-foreground">
+            Add expenses with categories to see the breakdown.
+          </p>
+        ) : (
+          <ul className="mt-4 space-y-2">
+            {data.map((d) => {
+              const pct = total > 0 ? Math.round((d.value / total) * 100) : 0;
+              return (
+                <li key={d.name} className="flex items-center justify-between gap-2 text-sm">
+                  <span className="flex min-w-0 items-center gap-2">
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: d.color }} />
+                    <span className="truncate">{d.name}</span>
+                  </span>
+                  <span className="shrink-0 text-right">
+                    <span className="font-medium">{formatMoney(d.value)}</span>
+                    <span className="ml-2 text-muted-foreground">({pct}%)</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </CardContent>
     </Card>
   );

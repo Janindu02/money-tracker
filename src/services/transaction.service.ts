@@ -8,8 +8,14 @@ export interface TransactionFilters {
   type?: "INCOME" | "EXPENSE";
   status?: "COMPLETED" | "PENDING";
   categoryId?: string;
+  expenseNature?: "NEED" | "DESIRE";
+  year?: number;
+  month?: number;
+  day?: number;
   startDate?: string;
   endDate?: string;
+  sortBy?: "date" | "amount" | "name";
+  sortOrder?: "asc" | "desc";
 }
 
 export interface PaginatedTransactions {
@@ -37,6 +43,23 @@ export interface CreateTransactionInput {
   isRecurring?: boolean;
   recurringInterval?: string;
   receiptUrl?: string;
+  expenseNature?: "NEED" | "DESIRE";
+}
+
+export interface TransactionCategory {
+  id: string;
+  name: string;
+  icon?: string | null;
+  type: string;
+  isDefault?: boolean;
+  color?: string | null;
+}
+
+export interface CreateCategoryInput {
+  name: string;
+  icon?: string;
+  type?: "EXPENSE" | "INCOME";
+  color?: string;
 }
 
 export const transactionService = {
@@ -53,8 +76,29 @@ export const transactionService = {
 
   remove: (id: string) => api.delete<{ message: string }>(`/transactions/${id}`),
 
-  getCategories: () =>
-    api.get<Array<{ id: string; name: string; icon?: string; type: string }>>(
-      "/transactions/categories",
-    ),
+  getCategories: (type?: "EXPENSE" | "INCOME") =>
+    api.get<TransactionCategory[]>("/transactions/categories", type ? { type } : undefined),
+
+  createCategory: (data: CreateCategoryInput) =>
+    api.post<TransactionCategory>("/transactions/categories", {
+      ...data,
+      type: data.type ?? "EXPENSE",
+    }),
+
+  updateCategory: (id: string, data: Partial<CreateCategoryInput>) =>
+    api.patch<TransactionCategory>(`/transactions/categories/${id}`, data),
+
+  removeCategory: (id: string) =>
+    api.delete<{ message: string }>(`/transactions/categories/${id}`),
 };
+
+export function mapToExpenseCategory(c: TransactionCategory): import("@/types").ExpenseCategory {
+  return {
+    id: c.id,
+    name: c.name,
+    icon: c.icon ?? undefined,
+    type: c.type,
+    isDefault: c.isDefault,
+    color: c.color ?? undefined,
+  };
+}
