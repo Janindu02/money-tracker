@@ -1,0 +1,3 @@
+# Environment variables — also set in Netlify UI and redeploy after changes
+[build.environment]
+  NEXT_PUBLIC_API_URL = "https://money-tracker-backend-delta.vercel.app/api/v1"
